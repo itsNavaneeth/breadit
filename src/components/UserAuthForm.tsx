@@ -4,12 +4,13 @@ import { Button } from "./ui/Button";
 import { cn } from "@/lib/utils";
 import { Icons } from "./Icons";
 import { signIn } from "next-auth/react";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const loginWithGoogle = async () => {
     setIsLoading(true);
@@ -17,9 +18,10 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
     try {
       await signIn("google");
     } catch (error) {
-      toast.error("There was a problem", {
-        description: "There was an error logging in with Google",
-        closeButton: true,
+      toast({
+        title: "There was a problem",
+        description: "There was an error logging in with google",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -34,7 +36,8 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
         size="sm"
         className="w-full"
         onClick={loginWithGoogle}
-        disabled={isLoading}>
+        disabled={isLoading}
+      >
         {isLoading ? null : <Icons.google className="h-4 w-4 mr-2" />}
         Google
       </Button>
