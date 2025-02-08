@@ -71,6 +71,7 @@ export const authOptions: NextAuthOptions = {
 
       if (!dbUser.username) {
         // Generate a unique username based on their name
+        // dummy commit
         const uniqueUsername = await generateUniqueUsername(user.name);
 
         await db.user.update({
