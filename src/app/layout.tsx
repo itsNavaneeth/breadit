@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/Toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "Breadit",
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
           </div>
           <Toaster />
+          <SpeedInsights />
         </body>
       </Providers>
     </html>
