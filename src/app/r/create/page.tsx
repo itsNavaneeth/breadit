@@ -15,43 +15,54 @@ const Page = () => {
   const router = useRouter();
   const { loginToast } = useCustomToasts();
 
-  const { mutate: createCommunity, isLoading } = useMutation({
+  // const { mutate: createCommunity, isLoading } = useMutation({
+  //   mutationFn: async () => {
+  //     const payload: CreateSubredditPayload = {
+  //       name: input,
+  //     };
+
+  //     const { data } = await axios.post("/api/subreddit", payload);
+  //     return data as string;
+  //   },
+  // onError: (err) => {
+  //   if (err instanceof AxiosError) {
+  //     if (err.response?.status === 409) {
+  //       toast.error("Subreddit already exists", {
+  //         description: "Please choose a different name",
+  //         closeButton: true,
+  //       });
+  //     }
+
+  //     if (err.response?.status === 422) {
+  //       toast.error("Invalid subreddit name", {
+  //         description:
+  //           "Please choose a different between 3 and 21 characters",
+  //         closeButton: true,
+  //       });
+  //     }
+
+  //     if (err.response?.status === 401) {
+  //       return loginToast();
+  //     }
+  //   }
+
+  //   toast.error("There was an error", {
+  //     description: "We could not create a subreddit",
+  //     closeButton: true,
+  //   });
+  // },
+  // onSuccess: (data: any) => {
+  //   router.push(`/r/${data}`);
+  // },
+  // });
+
+  const { mutate, isLoading } = useMutation({
     mutationFn: async () => {
-      const payload: CreateSubredditPayload = {
+      const payload = {
         name: input,
       };
-
       const { data } = await axios.post("/api/subreddit", payload);
       return data as string;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 409) {
-          toast.error("Subreddit already exists", {
-            description: "Please choose a different name",
-            closeButton: true,
-          });
-        }
-
-        if (err.response?.status === 422) {
-          toast.error("Invalid subreddit name", {
-            description: "Please choose a different between 3 and 21 characters",
-            closeButton: true,
-          });
-        }
-
-        if (err.response?.status === 401) {
-          return loginToast();
-        }
-      }
-
-      toast.error("There was an error", {
-        description: "We could not create a subreddit",
-        closeButton: true,
-      });
-    },
-    onSuccess: (data: any) => {
-      router.push(`/r/${data}`);
     },
   });
 
@@ -66,18 +77,34 @@ const Page = () => {
 
         <div>
           <p className="text-lg font-medium">Name</p>
-          <p className="text-xs pb-2">Community names including capitalization cannot be changed.</p>
+          <p className="text-xs pb-2">
+            Community names including capitalization cannot be changed.
+          </p>
           <div className="relative">
-            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">r/</p>
-            <Input value={input} onChange={(e) => setInput(e.target.value)} className="pl-6" />
+            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">
+              r/
+            </p>
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="pl-6"
+            />
           </div>
         </div>
 
         <div className="flex justify-end gap-4">
-          <Button disabled={isLoading} variant="subtle" onClick={() => router.back()}>
+          <Button
+            disabled={isLoading}
+            variant="subtle"
+            onClick={() => router.back()}
+          >
             Cancel
           </Button>
-          <Button isLoading={isLoading} disabled={input.length === 0} onClick={() => createCommunity()}>
+          <Button
+            isLoading={isLoading}
+            disabled={input.length === 0}
+            onClick={() => createCommunity()}
+          >
             Create Community
           </Button>
         </div>
