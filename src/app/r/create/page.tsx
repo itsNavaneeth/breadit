@@ -56,9 +56,9 @@ const Page = () => {
   // },
   // });
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
-      const payload = {
+      const payload: CreateSubredditPayload = {
         name: input,
       };
       const { data } = await axios.post("/api/subreddit", payload);
