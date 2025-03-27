@@ -7,8 +7,8 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { CreateSubredditPayload } from "@/lib/validators/subreddit";
-import { toast } from "sonner";
 import { useCustomToasts } from "@/hooks/use-custom-toasts";
+import { toast } from "@/hooks/use-toast";
 
 const Page = () => {
   const [input, setInput] = useState("");
@@ -63,6 +63,41 @@ const Page = () => {
       };
       const { data } = await axios.post("/api/subreddit", payload);
       return data as string;
+    },
+
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 409) {
+          return toast({
+            title: "Subreddit already exists",
+            description: "Please choose a different subreddit name.",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 422) {
+          return toast({
+            title: "Invalid subreddit name",
+            description:
+              "Please choose a different between 3 and 21 characters",
+            variant: "destructive",
+          });
+        }
+
+        if (err.response?.status === 401) {
+          return loginToast();
+        }
+      }
+
+      toast({
+        title: "There was an error",
+        description: "We could not create a subreddit",
+        variant: "destructive",
+      });
+    },
+
+    onSuccess: (data: any) => {
+      router.push(`/r/${data.data.subreddit.name}`);
     },
   });
 

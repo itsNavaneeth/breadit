@@ -1,20 +1,22 @@
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { toast } from "sonner";
+import { toast } from "./use-toast";
 
 export const useCustomToasts = () => {
   const loginToast = () => {
-    toast.error("Uh-oh! Not so fast!", {
+    const { dismiss } = toast({
+      title: "Uh-oh! Not so fast!",
       description: "You need to be logged in to do that",
-      duration: Infinity,
-      cancel: (
+      variant: "destructive",
+      action: (
         <Link
-          onClick={() => {
-            toast.dismiss();
-          }}
           href="/sign-in"
-          className={cn("", buttonVariants({ variant: "default" }), "")}>
+          className={buttonVariants({ variant: "outline" })}
+          onClick={() => {
+            dismiss();
+          }}
+        >
           Login
         </Link>
       ),
