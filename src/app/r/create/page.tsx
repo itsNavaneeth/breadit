@@ -15,47 +15,6 @@ const Page = () => {
   const router = useRouter();
   const { loginToast } = useCustomToasts();
 
-  // const { mutate: createCommunity, isLoading } = useMutation({
-  //   mutationFn: async () => {
-  //     const payload: CreateSubredditPayload = {
-  //       name: input,
-  //     };
-
-  //     const { data } = await axios.post("/api/subreddit", payload);
-  //     return data as string;
-  //   },
-  // onError: (err) => {
-  //   if (err instanceof AxiosError) {
-  //     if (err.response?.status === 409) {
-  //       toast.error("Subreddit already exists", {
-  //         description: "Please choose a different name",
-  //         closeButton: true,
-  //       });
-  //     }
-
-  //     if (err.response?.status === 422) {
-  //       toast.error("Invalid subreddit name", {
-  //         description:
-  //           "Please choose a different between 3 and 21 characters",
-  //         closeButton: true,
-  //       });
-  //     }
-
-  //     if (err.response?.status === 401) {
-  //       return loginToast();
-  //     }
-  //   }
-
-  //   toast.error("There was an error", {
-  //     description: "We could not create a subreddit",
-  //     closeButton: true,
-  //   });
-  // },
-  // onSuccess: (data: any) => {
-  //   router.push(`/r/${data}`);
-  // },
-  // });
-
   const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
       const payload: CreateSubredditPayload = {
